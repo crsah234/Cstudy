@@ -1,0 +1,215 @@
+#include <stdio.h>
+#include <math.h>
+//1. √1 + √ 2 + … + √n 을 계산하시오.(라이브러리 함수 sqrt()이용)
+
+int main() {
+	int n;
+	double sum=0;
+	scanf_s("%d", &n);
+	for (int i = 1; i<= n; i++) {
+		printf("루트 %d ", i);
+		sum += sqrt((double)i);
+		//  sqrt인자가 실수이다.
+	}
+	puts(" ");
+	printf("%lf", sum);
+	
+}
+
+#include <stdio.h>
+//a(정수)의 b(자연수)승을 해 주는 함수를 직접 만들고, 호출해 보시오.
+int ab(int a, int b);
+int main() {
+	int m, n;
+	scanf_s("%d%d", &m, &n);
+	printf("%d",ab(m, n));
+
+
+}
+int ab(int a, int b) {
+	int c = 1;
+	for (int i = 0; i < b; i++) {
+		c *= a;
+	}
+	return c;
+}
+
+#include <stdio.h>
+//3. 입력된 3수 중 가장 큰 값과 가장 작은 값을 구하시오.(큰 값 구해서 리턴하는 함수와, 작은 값 구해서 리턴하는 함수를 각각 구현)
+int getMax(int a, int b, int c);
+int getMin(int a, int b, int c);
+int main() {
+
+	int a, b, c;
+	scanf_s("%d%d%d", &a, &b, &c);
+	printf("%d %d %d 중 가장 큰값 : %d\n",a,b,c,getMax(a, b, c));
+	printf("%d %d %d 중 가장 작은 값 : %d",a,b,c,getMin(a, b, c));
+
+
+}
+
+int getMax(int a, int b, int c) {
+	int max=a;
+	if (b >= max && b >= c)
+		max = b;
+
+	else if (c >= b && c >= max)
+		max = c;
+	return max;
+}
+int getMin(int a, int b, int c) {
+	int min = a;
+	if (b <= min && b <= c)
+		min = b;
+
+	else if (c <= b && c <= min)
+		min = c;
+	return min;
+}
+
+#include <stdio.h>
+//4. 입력된 수의 10승, 20승, 30승, 40승, 50승을 출력하시오(라이브러리 함수 pow() 사용)
+#include <math.h>
+int main() {
+	int n;
+	scanf_s("%d", &n);
+
+	printf("10승 : %lf 20승 : %lf 30승 : %lf 40승 : %lf 50승 : %lf", pow(n, 10), pow(n, 20), pow(n, 30), pow(n, 40), pow(n, 50));
+
+}
+
+#include <stdio.h>
+//5. 배열을 인자로 받아 최대값을 가진 원소를 리턴 해주는 함수를 만들고, 이 함수를 이용하여 입력된 여러 수 중 최대값을 출력하시오.
+double getMax(double ary[], int n);
+int main() {
+	double a[10];
+	printf("10개 숫자를 입력하시오");
+	int i = 0;
+	for (; i < 10; i++) {
+		scanf_s("%lf", &a[i]);
+	}
+	printf("입력받은 배열 중 가장 큰 값은 : %5.2lf 입니다.", getMax(a, 10));
+
+
+}
+double getMax(double ary[], int n) {
+	double max = ary[0];
+	for (int i = 1; i < n; i++) {
+		if (ary[i] >= max) max = ary[i];
+	}
+	return max;
+}
+
+#include <stdio.h>
+//6. 배열의 각 원소값을 거꾸로 바꿔주는 함수를 만들고, 호출해 보시오.({1,4,7,5} -> {5,7,4,1} 예:void rev_arr(int *, int))
+// 동시에 바꾸는걸로 하여 100개면 50번, 배열의 개수의 절반의 횟수를 반복하여 진행해보기
+void rev_arr(int a[], int n);
+int main() {
+	int a[10];
+	for (int i= 0; i < 10; i++) {
+		scanf_s("%d", &a[i]);
+	}
+	rev_arr(a, 10);
+	for (int i = 0; i < 10; i++) {
+		printf("%d ", a[i]);
+	}
+}
+void rev_arr(int a[], int n) {
+	for (int i = 0; i < n / 2; i++) {
+		int a1, a2;
+		a1 = a[i];
+		a2 = a[n - i - 1];
+		a[i] = a2;
+		a[n - i - 1] = a1;
+	}
+}
+
+#include <stdio.h>
+//7. 난수를 이용하여 1에서 45 사이의 서로 다른 숫자 5개를 발생시켜 출력하시오.(중복제거하고, 라이브러리 rand(), srand(), time() 사용)
+// 중복되는지 한번더 확인 해보기
+#include <time.h>
+#include <stdlib.h>
+int main() {
+	srand((long)time(NULL));
+	int a[5];
+	a[0] = rand() % 45 + 1;
+	for (int i = 1; i < 5;i++) {
+		a[i] = rand() % 45 + 1;
+		for (int j = 0; j < i; j++) {
+			if (a[j] == a[i]) {
+				a[i]= rand() % 45 + 1; 
+				j=0; // 만약 같은게나오면 다시 처음부터 진행하도록.
+			}
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		printf("%d ", a[i]);
+	}
+
+}
+
+//8. 20억 이상의 소수(prime number) 10개 찾기.(소수인지 알려주는 함수를 구현할 것 예 : int is_prime(int))
+#include <stdio.h>
+int is_prime(int a);
+int main() {
+    int count = 0;
+       long a = 2000000000;
+       for (long i = a; ; i++) {
+          if (is_prime(i) == 1) {
+              printf("%ld\n", i);   
+              count++;
+              if (count == 10) break;
+          }
+       }
+       
+}
+int is_prime(int a) {
+    int half = a / 2;
+    //  컴파일러에 따라 반복할때마다 계산할 수 있음. 시간 더걸림.
+    for (long i = 2; i < half; i++) {
+        if (a % i == 0) {
+            return 0;
+         }
+    }
+    return 1;
+}
+
+// (학번 +5 % 10) +5 == 7번
+#include <stdio.h>
+#include <math.h>
+double danli(int a, double r, int N);
+double bokli(int a, double r, int N);
+int main() {
+	int a=0,N=0;
+	double r=0.0;
+	printf("원금, 이자율(%)(ex : 1%면 1), 기간을 입력하시오: ");
+	scanf_s("%d %lf %d", &a, &r, &N);
+	printf("단리 : %5.2lf  복리 : %5.2lf", danli(a, r, N), bokli(a, r, N));
+}	
+double danli(int a, double r, int N) {
+	double sum;
+	sum = a * (1 + (r / 100) * N);
+	return sum;
+}
+double bokli(int a, double r, int N) {
+	double sum;
+	// a*(1+r)의  n승
+	sum = a*pow((1 + (r / 100)), N);
+	return sum;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
