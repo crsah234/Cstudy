@@ -1,0 +1,205 @@
+데이터베이스 예제
+내이름으로 데이터베이스만들기
+
+Enter password: ******** // dongyang
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.37-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.02 sec)
+
+mysql> use mysql
+Database changed
+mysql> show tables;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| columns_priv              |
+| db                        |
+| engine_cost               |
+| event                     |
+| func                      |
+| general_log               |
+| gtid_executed             |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| innodb_index_stats        |
+| innodb_table_stats        |
+| ndb_binlog_index          |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| server_cost               |
+| servers                   |
+| slave_master_info         |
+| slave_relay_log_info      |
+| slave_worker_info         |
+| slow_log                  |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| user                      |
++---------------------------+
+31 rows in set (0.00 sec)
+
+mysql> desc general_log;
++--------------+---------------------+------+-----+----------------------+--------------------------------+
+| Field        | Type                | Null | Key | Default              | Extra                          |
++--------------+---------------------+------+-----+----------------------+--------------------------------+
+| event_time   | timestamp(6)        | NO   |     | CURRENT_TIMESTAMP(6) | on update CURRENT_TIMESTAMP(6) |
+| user_host    | mediumtext          | NO   |     | NULL                 |                                |
+| thread_id    | bigint(21) unsigned | NO   |     | NULL                 |                                |
+| server_id    | int(10) unsigned    | NO   |     | NULL                 |                                |
+| command_type | varchar(64)         | NO   |     | NULL                 |                                |
+| argument     | mediumblob          | NO   |     | NULL                 |                                |
++--------------+---------------------+------+-----+----------------------+--------------------------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from general_log;
+Empty set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> create database gimjiho;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| gimjiho            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use gimjiho
+Database changed
+
+mysql> show tables;
++-------------------+
+| Tables_in_gimjiho |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | varchar(20) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> use gimjiho;
+Database changed
+mysql> create table student3(
+    -> id               varchar(20)             NOT NULL,
+    -> passwd           varchar(20)             NOT NULL,
+    -> name             varchar(20)             NOT NULL,
+    -> year             int                     NULL,
+    -> snum             varchar(10)             NULL,
+    -> depart           varchar(20)             NULL,
+    -> mobile1          char(3)                 NULL,
+    -> mobile2          varchar(10)             NULL,
+    -> address          varchar(65)             NULL,
+    -> email            varchar(30)             NULL,
+    -> PRIMARY KEY(id)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_gimjiho |
++-------------------+
+| student           |
+| student2          |
+| student3          |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> desc student3;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | varchar(20) | NO   | PRI | NULL    |       |
+| passwd  | varchar(20) | NO   |     | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| year    | int(11)     | YES  |     | NULL    |       |
+| snum    | varchar(10) | YES  |     | NULL    |       |
+| depart  | varchar(20) | YES  |     | NULL    |       |
+| mobile1 | char(3)     | YES  |     | NULL    |       |
+| mobile2 | varchar(10) | YES  |     | NULL    |       |
+| address | varchar(65) | YES  |     | NULL    |       |
+| email   | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+
+//insert 하기
+
+mysql> insert into student3
+    -> values('jdbcmania','javajsp','김지호',2010,'20185047','컴퓨터정보공학과','011','87654-4983','광명시','crsah234@naver.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student3;
++-----------+---------+-----------+------+----------+--------------------------+---------+------------+-----------+--------------------+
+| id        | passwd  | name      | year | snum     | depart                   | mobile1 | mobile2    | address   | email              |
++-----------+---------+-----------+------+----------+--------------------------+---------+------------+-----------+--------------------+
+| jdbcmania | javajsp | 김지호    | 2010 | 20185047 | 컴퓨터정보공학과         | 011     | 87654-4983 | 광명시    | crsah234@naver.com |
++-----------+---------+-----------+------+----------+--------------------------+---------+------------+-----------+--------------------+
+1 row in set (0.00 sec)
+
+// utf8이어야 한국어 지원
+
+mysql> status
+--------------
+C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe  Ver 14.14 Distrib 5.7.37, for Win64 (x86_64)
+
+Connection id:          3
+Current database:       gimjiho
+Current user:           root@localhost
+SSL:                    Cipher in use is ECDHE-RSA-AES128-GCM-SHA256
+Using delimiter:        ;
+Server version:         5.7.37-log MySQL Community Server (GPL)
+Protocol version:       10
+Connection:             localhost via TCP/IP
+Server characterset:    utf8
+Db     characterset:    utf8
+Client characterset:    utf8
+Conn.  characterset:    utf8
+TCP port:               3307
+Uptime:                 1 hour 31 min 10 sec
+
+Threads: 1  Questions: 45  Slow queries: 0  Opens: 112  Flush tables: 1  Open tables: 105  Queries per second avg: 0.008
+
