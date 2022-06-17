@@ -1,0 +1,155 @@
+//1 “이름, 나이, 혈액형”을 멤버로 가지는 구조체를 정의하고, 
+//자신의 정보를 입력 받아 저장한 다음, 구조체 포인터를 이용하여 다시 출력하시오. 
+
+#include <stdio.h>
+#include <string.h>
+struct m
+{
+	char name[10];
+	int age;
+	char blood;
+};
+void main(){
+	char c;
+	puts("혈액형 입력 : ");
+	scanf_s("%c", &c, 1);
+
+	typedef struct m m;
+	char a[10];
+	printf("이름 입력:");
+	scanf_s("%s", a, 10);
+
+	int b;
+	puts("나이 입력:");
+	scanf_s("%d", &b);
+	
+	m os;
+	os.age = b;
+	os.blood = c;
+	strcpy_s(os.name, 10, a);
+	m* p = &os;
+	printf("%s %d %c", (*p).name, (*p).age, (*p).blood);
+	// scanf_s("%s %d %c",os.name,20,&os.age,os.blood,1);
+	printf("%s %d %c", p->name, p->age, p->blood);
+	
+
+}
+
+#include <stdio.h>
+//2 학생의 “이름, 과목명1, 평점, 과목명2, 평점, 과목명3, 평점” 등 7개의 멤버를 가지는 구조체를 정의하고, 
+//이 구조체의 포인터를 인자로 하여 평점평균을 구해주는 함수를 작성하고, 호출해 보시오.
+typedef struct student{
+	char name[10];
+	char sub1[10];
+	int sub1_score;
+	char sub2[10];
+	int sub2_score;
+	char sub3[10];
+	int sub3_score;
+}st;
+double getAverage(st* p);
+void main() {
+	st os;
+	puts("과목3개의 평점 입력:");
+	scanf_s("%d %d %d", &os.sub1_score, &os.sub2_score, &os.sub3_score);
+	printf("%lf",getAverage(&os));
+	}
+double getAverage(st* p) {
+	int sum = 0;
+	sum = (p->sub1_score) + (p->sub2_score) + (p->sub3_score);
+	return (sum / 3);
+};
+
+//3 삼각형의 세변을 멤버로 가지는 구조체를 정의하고, 삼각형의 면적을 구해주는 함수를 만들어 보시오.
+//(면적 S＝√("s(s－a)(s－b)(s－c)"), 여기서 s＝(a＋b＋c) / 2)
+
+#include <stdio.h>
+#include <math.h>
+typedef struct t {
+	double a, b, c;
+}t;
+double getArea(t *p);
+void main() {
+	puts("삼각형 세변의길이입력:");
+	t a;
+	scanf_s("%lf%lf%lf", &a.a, &a.b, &a.c);
+	if (a.a + a.b <= a.c || a.a + a.c <= a.b || a.b + a.c <= a.a)
+		printf("삼각형의조건이 안됩니다.");
+	else{
+		printf("%lf", getArea(&a));
+	}
+}
+double getArea(t* p) {
+	double s = (p->a + p->b + p->c) / 2;
+	
+	return sqrt(s * (s - p->a) * (s - p->b) * (s - p->c));
+}
+
+//4 스포츠센터 회원 확충을 위한 DB를 구성하려 한다.이름, 회원여부, 회원번호(비회원은 닉네임)의 멤버를 가지는 구조체를 정의하고,
+//회원 1명과 비회원 1명을 입력 받아 저장한 후 출력하시오.(단 비회원은 회원번호에 자신의 닉네임을 쓰게 공용체로 구성하시오)
+#include <stdio.h>
+typedef union memeberNum {
+	char nickName[10];
+	int memNum;
+}checkMem;
+typedef struct sports {
+	char name[10];
+	char Yes_NO;
+	checkMem c;
+}s;
+void main() {
+	s os[2];
+	for(int i=0;i<2;i++){
+		puts("이름을 입력하세요:");
+		scanf_s("%s", os[i].name,10);
+		puts("회원여부 : Y or N 입력:");
+		
+		scanf_s(" %c", &os[i].Yes_NO,1);
+		if (os[i].Yes_NO == 'N') {
+			puts("비회원입니다. 회원번호는 닉네임을 입력하셔야합니다.");
+			scanf_s("%s", os[i].c.nickName,10);
+		}
+		else if (os[i].Yes_NO == 'Y') {
+			puts("회원입니다. 회원번호를 입력해주세요");
+			scanf_s("%d", &os[i].c.memNum);
+		}
+
+	}
+
+	for(int i = 0; i < 2; i++){
+		if (os[i].Yes_NO == 'Y')
+			printf("  회원[이름 : %10s 회원번호 : %10d]\n", os[i].name, os[i].c.memNum);
+
+		else if (os[i].Yes_NO == 'N')
+			printf("비회원[이름 : %10s   닉네임 : %10s]\n", os[i].name, os[i].c.nickName);
+	}
+}
+
+#include <stdio.h>
+
+// 분수 정보를 나타내는 구조체 fraction는 정수형의 분자와 분모 정모를 갖는다
+// 구조체 fraction을 정의하고, 2개의 분수를 선언하여 적당한 값을 입력하여 출력하는 프로그램을 작성하시오
+typedef struct fraction {
+	int m;
+	int n;
+
+}f;
+
+void main() {
+	f a;
+	puts("분자분모 첫번째것 입력:");
+	scanf_s("%d%d",&a.n,&a.m);
+	
+
+	f b;
+	puts("분자분모 두번째것 입력:");
+	scanf_s("%d%d", &b.n, &b.m);
+
+	puts("두 분수의 곱셈:");
+	printf("%d/%d * %d/%d=", a.n, a.m, b.n, b.m);
+	printf(" %d/%d",(a.n * b.n), (a.m* b.m));
+}
+
+
+
+

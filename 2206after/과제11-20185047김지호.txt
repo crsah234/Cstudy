@@ -1,0 +1,182 @@
+#include <stdio.h>
+//1 배열의 각 원소를 2배로 만들어 주는 함수만들기(포인터변수를 인자로 하는 void 함수 만들것.(void dbia(int p[],int))
+void dbia(int p[],int n);
+int main(){
+    int a[]={1,2,3,4};
+    int n=(int)(sizeof(a)/sizeof(a[0]));
+ 
+    dbia(a,n);
+
+    for(int i=0;i<n;i++)
+        printf("%d ",a[i]);
+
+    return 0;
+}
+void dbia(int p[],int n){
+    for(int i=0;i<n;i++){
+        //*(p+i)=*(p+i)+*(p+i);
+        p[i]*=2;
+    }
+
+}
+
+#include <stdio.h>
+//2 배열을 인자로 받아 마지막 원소부터 거꾸로 출력해주는 함수 만들기 (void revPrint(int p[], int sz) )
+void revPrint(int p[],int sz);
+int main(){
+int a[]={1,2,3,4};
+
+revPrint(a,4);
+   return 0; 
+}
+void revPrint(int p[],int sz){
+    int n=sz;
+    for(int i=n-1;0<=i;i--){
+        printf("%d",p[i]);
+
+    }
+
+}
+
+
+// 3 문자열의 일부분 잘라내주는 함수 만들기
+//(void cutStr(char *original_str, int start, int cnt, char *sub_str)
+#include<stdio.h>
+#include<string.h>
+void cutStr(const char *original_str,int start, int cnt, char *sub_str);
+int main(){
+    char a[11]="0123456789";
+    char b[11]={};
+    cutStr(a,1,4,b);
+
+
+    return 0;
+}
+void cutStr(const char *original_str,int start, int cnt, char *sub_str){
+    int i=0;
+    int j=0;
+    while(*(original_str+i)){
+        if((start<=i&&i<(start+cnt))){
+            *(sub_str+j)=*(original_str+i);
+            j++;
+        }
+        i++;
+    }
+    while(*(sub_str)){
+        printf("%c ",*(sub_str++));
+    }
+    // 여기까지만 하면 original_str에 영향은 없음.
+
+    // 밑에는 original_str에 영향끼치는거 만들어보기
+
+   
+   
+}
+
+//4 세변으로 이루어진 삼각형 구조체를 정의하고, 2개의 삼각형이 동일 한지 판별하는 함수만들기
+#include <stdio.h>
+#include <math.h>
+#define max(a,b,c) (a>=b&&a>=c?(b>=c&&b>=a?c:(b)):(a))
+#define min(a,b,c) (a<=b&&a<=c?(b<=c&&b<=a?(c):(b)):(a))
+
+struct t{
+    int a,b,c;
+};typedef struct t t;
+void same(struct t *pp, struct t *qq);
+int main(){
+   
+   t t1={3,4,5};
+   t t2={3,4,5};
+    same(&t1,&t2);
+    return 0;
+}
+void same(t *pp, t *qq){
+    if(max(qq->a,qq->b,qq->c)==max(pp->a,pp->b,pp->c)&&min(qq->a,qq->b,qq->c)==min(pp->a,pp->b,pp->c)){
+        if(pow(qq->a,2)+pow(qq->b,2)+pow(qq->c,2)==pow(pp->a,2)+pow(pp->b,2)+pow(pp->c,2)){
+            printf("서로 같은 삼각형입니다. 변의길이중 최댓값과 최솟값이 같고, a제곱+b제곱+c제곱 값이 같습니다");
+        }
+        else{
+            printf("변의 길이 중 최댓값과 최솟값은 같으나 한변의 길이가 다릅니다.");
+        }
+    }else{
+        printf("변의 길이 중 최솟값과 최댓값이 모두 서로 다릅니다. 다른 삼각형입니다");
+    }
+            
+}
+
+//5 문자열을 인자로 받아, 홀수 번째 문자로만 이루어진 문자열과, 짝수 번째 문자로만 
+//이루어진 문자열을 ‘포인터 인자’를 통해 구해주는 함수 를 만드시오. 
+//출력은 함수에서 하지 말고 main()에서 하시오. (예)"abcde" => "ace" "bd“
+#include <stdio.h>
+void seperate(char *a,char *b, char *c);
+int main(){
+    char a[10]="12345678";
+    char b[6],c[6];
+   
+   printf("프로그램실행합니다\n");
+    seperate(a,b,c);
+    printf("짝수 번 : %s\n",b);
+    printf("홀수 번 : %s\n",c);
+
+    return 0;
+}
+void seperate(char *a,char *b, char *c){
+    int i=1;
+    while(*a){
+        if(i%2==0){//짝수
+            *b++=*a++;
+        }else {
+            *c++=*a++; 
+        }
+        i++;
+
+    }
+
+}
+
+#include <stdio.h>
+    //다음을 참고로 정수형 배열 pascal[10][10]을 선언하여 10하ㅐㅇ까지 파스칼의 삼각형을 저장한 후 출력하는 프로그램을 작성하시오
+     // size 크기의 파스칼 삼각형을 2차원 배열 p에 생성하는 함수
+     // 함수 void pascaltriangle(int(*p)[10],int size)
+     //하나의 행에서 처음과 끝이 아니면 p[i][j]=p[i-1]+p[i-1][j-1]
+     // 하나의 행에서 처음 또는 끝이면 p[i][j]=1
+void pascaltriangle(int(*p)[10],int size);
+int main(){
+    int pascal[10][10];
+    pascaltriangle(pascal,10);
+// 1 
+// 1 1 
+// 1 2 1 
+// 1 3 3 1 
+// 1 4 6 4 1 
+// 1 5 10 10 5 1 
+// 1 6 15 20 15 6 1 
+// 1 7 21 35 35 21 7 1 
+// 1 8 28 56 70 56 28 8 1 
+// 1 9 36 84 126 126 84 36 9 1 
+
+}
+void pascaltriangle(int(*p)[10],int size){
+
+    for(int i=0;i<size;i++){
+        for(int j=0;j<size;j++){
+           if(j<=i){
+            if(i==0||j==0||i==j){
+               *(*(p+i)+j)=1; 
+            }else{
+                *(*(p+i)+j)=*(*(p+(i-1))+j)+*(*(p+(i-1))+(j-1));
+            }
+           }else{
+               *(*(p+i)+j)=0;
+           }
+        }
+       
+    }
+      // 출력문
+      for(int i=0;i<size;i++){
+          for(int j=0;j<=i;j++){
+              printf("%d ",*(*(p+i)+j));
+          }
+          printf("\n");
+      }
+}

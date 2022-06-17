@@ -1,0 +1,178 @@
+#include<stdio.h>
+//1 문자열내의 숫자문자(즉 ‘0’~’9’)의 개수를 알려주는 함수를 만들고,
+//호출해 보시오.(int cntNumber(char*))
+int cntNumber(char* p);
+int main() {
+	char num[100];
+	puts("문자열 입력:");
+	scanf_s("%s", num, 100);
+	char* p = num;
+	int i = 0;
+	while (p[i]) {
+		printf("%c", p[i++]);
+	}
+	printf("문자열내 숫자문자 개수: %d개", cntNumber(num));
+
+
+}
+int cntNumber(char* p) {
+	int count = 0;
+	int i = 0;
+	//while (p[i]) {
+	//	/*p[i] == '0' || p[i] == '1' || p[i] == '2' || p[i] == '3' || p[i] == '4'
+	//		|| p[i] == '5' || p[i] == '6' || p[i] == '7' || p[i] == '8' || p[i] == '9'*/
+	//	if (p[i]>='0'||p[i]<='9')
+	//		count++;
+	//	i++;
+	//}
+	while (*p) {
+		if (*p >= '0' && *p <= '9') count++;
+		p++;
+	}
+	return count;
+}
+
+//2 문자열을 입력 받아(gets() 이용), 3 글자씩 잘라 각각 새 라인에 출력하시오.
+#include<stdio.h>
+#include <string.h>
+int main() {
+	char a[100];
+	gets_s(a);
+	int count = 0;
+	char* p = a;
+	while (*p) {
+		count++;
+		printf("%c", *p++);
+		if (count % 3 == 0)
+			printf("\n");
+	}
+	
+
+}
+
+//3 문자열을 인자로 받아 자음만으로 이루어진 문자열을 구해, 
+//포인터 인자로 전달해 주는 함수를 만들고, 호출해 보시오.(단, 모음은 a, e, i, o, u 임)  
+//(void strConsonant(char*, char*))
+#include <stdio.h>
+void strConsonant(char* a, char* b);
+int main() {
+	char num1[100];
+	char num2[100];
+	puts("문자열 입력:");
+	gets_s(num1);
+	strConsonant(num1,num2);
+}
+void strConsonant(char* a, char* b) {
+	int i = 0;
+	int j = 0;
+	while (a[i]) {
+		if (!(a[i] == 'a' || a[i] == 'i' || a[i] == 'u' || a[i] == 'e' || a[i] == 'o')) {
+			b[j] = a[i];
+			printf("%c", b[j]);
+			j++;			
+		}			  
+		i++;
+	}
+	// 문자열 출력하는것 만들어보기
+}
+
+#include <stdio.h>
+#include <string.h>
+////4 입력 받은 문자열에서 맨 가운데 문자를 출력하시오.(길이가 짝수면 2개 출력)
+void showmiddle(char* p, int a);
+int main() {
+	char a[100];
+	puts("문자열 입력:");
+	gets_s(a);
+	showmiddle(a,strlen(a));
+}
+void showmiddle(char* p, int a) {
+	int i = 0;
+	if (a % 2 == 0) {
+		printf("%c%c",p[(int)(a/2)-1], p[(int)(a / 2)]);
+	}
+	else {
+		printf("%c", p[(int)(a / 2)]);
+	}
+
+}
+//5 문자열을 거꾸로 출력해주는 함수를 만들고, 호출해 보시오.
+#include <stdio.h>
+#include <string.h>
+void printReverse(char* a,int n);
+int main() {
+	char a[100];
+	gets_s(a);
+	printReverse(a,strlen(a));
+
+}
+void printReverse(char* a,int n) {
+	while (n >= 0) {
+		printf("%c", a[n--]);
+	}
+}
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<string.h>
+//6 두 문자열을 서로 교환해주는 함수를 만들고, 호출해 보시오.(void swapStr(char*, char*))
+void swapStr(char* pa, char* pb);
+int main() {
+	char a[100], b[100];
+
+	puts("문자열 a 입력:");
+	gets_s(a,100);
+	puts("문자열 b 입력:");
+	gets_s(b,100);
+
+	swapStr(a, b);
+
+	printf("%s\n%s", a, b);
+
+}
+void swapStr(char* pa, char* pb) {
+	char a[100];
+	strcpy(a, pa);
+	strcpy(pa, pb);
+	strcpy(pb, a);
+
+
+}
+//7 문자열 5개를 입력 받아 영어사전식으로 정렬하여 출력하시오.(2차원 배열 이용)
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+void endic(char *pa);
+int main() {
+	char a[5][100];
+	int i = 0;
+	while(i<= 4) {
+		gets_s(a[i],100);
+		i++;
+	}
+	char b[100];
+	printf("%s %s %s %s %s\n", a[0], a[1], a[2], a[3], a[4]);
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4 - i; j++) {
+			// 비교시 앞에것이 더 클때.
+			if (strcmp(a[j],a[j+1])>0) {
+				strcpy(b, a[j]);
+				strcpy(a[j], a[j + 1]);
+				strcpy(a[j + 1], b);
+			}
+		}
+	}
+	puts("endic실행 후 결과출력입니다");
+	printf("%s %s %s %s %s\n", a[0], a[1], a[2], a[3], a[4]);
+	
+
+}
+
+#include <stdio.h>
+//1번 표준입력으로 문자를 하나 입력받아 아스키코드값을 출력하는 프로그램을 작성하시오
+int main() {
+	char a;
+	scanf_s("%c", &a,1);
+	printf("%d", a);
+}
+
+

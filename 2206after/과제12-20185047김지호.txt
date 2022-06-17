@@ -1,0 +1,172 @@
+#include <stdio.h>
+#include <stdlib.h>
+// 자신의 이름, 나이 직업을 이진파일로 저장하고, 다시 읽어 출력하는 프로그램(구조체필요)
+int main() {
+	typedef struct {
+		char name[10];
+		int age;
+		char job[20];
+	}info;
+	info my;
+	printf("이름 나이 직업 입력:\n");
+	scanf_s("%s %d %s", &my.name, 10, &my.age, &my.job, 20);
+	FILE* f;
+
+	if (fopen_s(&f, "myinfo.bin", "wb") != 0) {
+		printf("에러입니다");
+		exit(1);
+	}
+	fwrite(&my, sizeof(my), 1, f);
+	fclose(f);
+
+
+}
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+// 프로젝트 추가로 만들어위에서 만든 이진파일을 이프로젝트가 있는 폴더에 복사하고, 
+// 이파일에 가족을 추가해 넣을 수 있게 코디하시오. 
+// 추가 후 다시 읽어 전부를 룰력
+
+int main() {
+	struct info {
+		char name[10];
+		int age;
+		char job[20];
+	}my;
+	printf("가족의 이름 나이 직업 입력:\n");
+	scanf_s("%s %d %s", &my.name, 10, &my.age, &my.job, 20);
+	FILE* f;
+	// append mode. 추가하기 ab
+	if (fopen_s(&f, "myinfo.bin", "ab") != 0) {
+		printf("에러입니다");
+		exit(1);
+	}
+	fwrite(&my, sizeof(my), 1, f);
+	fclose(f);
+
+	// 읽어오기
+	if (fopen_s(&f, "myinfo.bin", "rb") != 0) {
+		printf("에러입니다");
+		exit(1);
+	}
+	fread(&my, sizeof(struct info), 1, f);
+	while (!feof(f)) {
+		printf("이름 : %s  나이 :%d 직업 : %s\n", my.name, my.age, my.job);
+		fread(&my, sizeof(struct info), 1, f);// 한개읽어서 한개 나타내기
+	}
+
+	fclose(f);
+
+
+}
+
+#include <stdio.h>
+#include <stdlib.h>
+//프로젝트를 추가로 만들어 위에서 만든 이진 파일을 이 프로젝트에 복사하고,
+//나이를 모두 읽어와서 나이의 총합을 출력하시오
+int main() {
+	struct info {
+		char name[10];
+		int age;
+		char job[20];
+	}my;
+	
+	FILE* f;
+
+	// 읽어오기
+	if (fopen_s(&f, "myinfo.bin", "rb") != 0) {
+		printf("에러입니다");
+		exit(1);
+	}
+	int sum = 0;
+	// fread 한번 열어야 f가 0값이안들어감
+	fread(&my, sizeof(struct info), 1, f);
+	while (!feof(f)) {
+		sum += my.age;
+		printf("이름 : %s  나이 :%d 직업 : %s\n", my.name, my.age, my.job);
+		fread(&my, sizeof(struct info), 1, f);// 한개읽어서 한개 나타내기
+
+	}
+
+	fclose(f);
+	printf("%d", sum);
+
+}
+
+
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+	typedef struct {
+		int num;
+		char name[10];
+		int age;
+		char job[20];
+	}info;
+	info my;
+	int maxnum, getnum;
+	int cnt = 0;
+	FILE* f;
+	
+	if (fopen_s(&f, "myinfo3.bin", "rb") != 0) {
+		printf("첫단계입니다.");
+		printf("이름 나이 직업 입력:\n");
+		scanf_s("%s %d %s", &my.name, 10, &my.age, &my.job, 20);
+		if (fopen_s(&f, "myinfo3.bin", "wb") != 0) {
+			printf("에러입니다2");
+			exit(1);
+		}
+		my.num = cnt + 1;
+		fwrite(&my, sizeof(my), 1, f);
+		fclose(f);
+	}
+	fread(&my, sizeof(my), 1, f);
+	while (!feof(f)) {
+		cnt = my.num;
+		fread(&my, sizeof(my), 1, f);// 한개읽어서 한개 나타내기
+	}
+	fclose(f);
+	// 일련번호 2부터 입력받기.
+	printf("이름 나이 직업 입력:\n");
+	scanf_s("%s %d %s", &my.name, 10, &my.age, &my.job, 20);
+	// append mode. 추가하기 ab + 일련번호 증가.
+	my.num = cnt+1;
+	if (fopen_s(&f, "myinfo3.bin", "ab") != 0) {
+		printf("에러입니다");
+		exit(1);
+	}
+	fwrite(&my, sizeof(my), 1, f);
+	fclose(f);
+
+	// 마지막에 한번에 보여주기
+	if (fopen_s(&f, "myinfo3.bin", "rb") != 0) {
+		printf("에러입니다ㅠ");
+		exit(1);
+	}
+	fread(&my, sizeof(my), 1, f);
+	while (!feof(f)) {
+		maxnum = my.num;
+		printf("번호 : %d 이름 : %s  나이 :%d 직업 : %s\n", my.num, my.name, my.age, my.job);
+		fread(&my, sizeof(my), 1, f);// 한개읽어서 한개 나타내기
+	}
+
+	fclose(f);
+
+	//일련번호검색및 보여주기/
+	printf("보고싶은 일련번호를 입력해주세요\n");
+	scanf_s("%d", &getnum);
+	if (fopen_s(&f, "myinfo3.bin", "rb") != 0) {
+		printf("에러입니다");
+		exit(1);
+	}
+	fread(&my, sizeof(my), 1, f);
+	while (!feof(f)) {
+		if(my.num==getnum)
+		printf("번호 : %d 이름 : %s  나이 :%d 직업 : %s\n", my.num, my.name, my.age, my.job);
+		fread(&my, sizeof(my), 1, f);// 한개읽어서 한개 나타내기
+	}
+
+}
